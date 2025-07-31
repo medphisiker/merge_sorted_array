@@ -1,82 +1,83 @@
 # 88. Merge Sorted Array
 
-This is a task from LeetCode ([link](https://leetcode.com/problems/merge-sorted-array/description/?envType=study-plan-v2&envId=top-interview-150)).
+Это задание с сайта LeetCode ([ссылка](https://leetcode.com/problems/merge-sorted-array/description/?envType=study-plan-v2&envId=top-interview-150)).
 
-You are given two integer arrays `nums1` and `nums2`, sorted in non-decreasing order, and two integers `m` and `n`, representing the number of elements in `nums1` and `nums2` respectively.
+Даны два целочисленных массива `nums1` и `nums2`, отсортированных в неубывающем порядке, а также два целых числа `m` и `n`, представляющие количество элементов в `nums1` и `nums2` соответственно.
 
-Merge `nums1` and `nums2` into a single array sorted in non-decreasing order.
+Необходимо объединить `nums1` и `nums2` в один массив, отсортированный в неубывающем порядке.
 
-The final sorted array should not be returned by the function, but instead be stored inside the array `nums1`. To accommodate this, `nums1` has a length of `m + n`, where the first `m` elements denote the elements that should be merged, and the last `n` elements are set to 0 and should be ignored. `nums2` has a length of `n`.
+Окончательный отсортированный массив не должен возвращаться функцией, а должен храниться внутри массива `nums1`. Для этого длина `nums1` равна `m + n`, где первые `m` элементов — это элементы, которые нужно объединить, а последние `n` элементов равны 0 и должны игнорироваться. Массив `nums2` имеет длину `n`.
 
-## Examples
+## Примеры
 
-### Example 1
-**Input**: `nums1 = [1,2,3,0,0,0]`, `m = 3`, `nums2 = [2,5,6]`, `n = 3`  
-**Output**: `[1,2,2,3,5,6]`  
-**Explanation**: The arrays we are merging are `[1,2,3]` and `[2,5,6]`. The result of the merge is `[1,2,2,3,5,6]` with the underlined elements coming from `nums1`.
+### Пример 1
+**Ввод**: `nums1 = [1,2,3,0,0,0]`, `m = 3`, `nums2 = [2,5,6]`, `n = 3`  
+**Вывод**: `[1,2,2,3,5,6]`  
+**Пояснение**: Массивы, которые мы объединяем, — это `[1,2,3]` и `[2,5,6]`. Результат слияния: `[1,2,2,3,5,6]`, где подчёркнутые элементы взяты из `nums1`.
 
-### Example 2
-**Input**: `nums1 = [1]`, `m = 1`, `nums2 = []`, `n = 0`  
-**Output**: `[1]`  
-**Explanation**: The arrays we are merging are `[1]` and `[]`. The result of the merge is `[1]`.
+### Пример 2
+**Ввод**: `nums1 = [1]`, `m = 1`, `nums2 = []`, `n = 0`  
+**Вывод**: `[1]`  
+**Пояснение**: Массивы, которые мы объединяем, — это `[1]` и `[]`. Результат слияния: `[1]`.
 
-### Example 3
-**Input**: `nums1 = [0]`, `m = 0`, `nums2 = [1]`, `n = 1`  
-**Output**: `[1]`  
-**Explanation**: The arrays we are merging are `[]` and `[1]`. The result of the merge is `[1]`. Note that because `m = 0`, there are no elements in `nums1`. The 0 is only there to ensure the merge result can fit in `nums1`.
+### Пример 3
+**Ввод**: `nums1 = [0]`, `m = 0`, `nums2 = [1]`, `n = 1`  
+**Вывод**: `[1]`  
+**Пояснение**: Массивы, которые мы объединяем, — это `[]` и `[1]`. Результат слияния: `[1]`. Обратите внимание, что так как `m = 0`, в `nums1` нет элементов. Ноль присутствует только для того, чтобы результат слияния мог поместиться в `nums1`.
 
-## Constraints
+## Ограничения
 - `nums1.length == m + n`
 - `nums2.length == n`
 - `0 <= m, n <= 200`
 - `1 <= m + n <= 200`
 - `-10^9 <= nums1[i], nums2[j] <= 10^9`
 
-## Follow up
-Can you come up with an algorithm that runs in O(m + n) time?
-## Solution Approach
+## Дополнительный вопрос
+Можете ли вы предложить алгоритм, работающий за O(m + n) времени?
 
-### Algorithm: Three Pointers (Backward)
+## Подход к решению
 
-The implemented solution uses the optimal three-pointers technique working from the end of the arrays:
+### Алгоритм: Три указателя (обратный обход)
 
-1. **Three Pointers**:
-   - `pointer_1`: points to the last valid element in `nums1` (at index `m-1`)
-   - `pointer_2`: points to the last element in `nums2` (at index `n-1`) 
-   - `insert_pos`: points to the last position in `nums1` (at index `m+n-1`)
+Реализованное решение использует оптимальный метод с тремя указателями, работающими с конца массивов:
 
-2. **Key Insight**: By processing arrays from the end, we avoid overwriting unprocessed elements in `nums1`. This eliminates the need for temporary arrays or complex shifting operations.
+1. **Три указателя**:
+   - `pointer_1`: указывает на последний значимый элемент в `nums1` (по индексу `m-1`)
+   - `pointer_2`: указывает на последний элемент в `nums2` (по индексу `n-1`)
+   - `insert_pos`: указывает на последнюю позицию в `nums1` (по индексу `m+n-1`)
 
-3. **Process**:
-   - Compare elements at `pointer_1` and `pointer_2`
-   - Place the larger element at `insert_pos`
-   - Move the corresponding pointer and `insert_pos` backward
-   - Continue until one array is fully processed
-   - Copy remaining elements from the other array
+2. **Ключевая идея**: Обрабатывая массивы с конца, мы избегаем перезаписи ещё необработанных элементов в `nums1`. Это исключает необходимость во временных массивах или сложных операциях сдвига.
 
-### Why This Approach is Optimal
+3. **Процесс**:
+   - Сравниваем элементы по указателям `pointer_1` и `pointer_2`
+   - Помещаем больший элемент в позицию `insert_pos`
+   - Перемещаем соответствующий указатель и `insert_pos` на одну позицию назад
+   - Продолжаем, пока один из массивов не будет полностью обработан
+   - Копируем оставшиеся элементы из другого массива
 
-**Time Complexity**: O(m + n)
-- Each element from both arrays is processed exactly once
-- No nested loops or repeated operations
+### Почему этот подход оптимален
 
-**Space Complexity**: O(1)
-- Only uses three integer variables as pointers
-- Modifies `nums1` in-place without additional storage
+**Сложность по времени**: O(m + n)  
+- Каждый элемент из обоих массивов обрабатывается ровно один раз  
+- Нет вложенных циклов или повторяющихся операций
 
-### Key Advantages
+**Сложность по памяти**: O(1)  
+- Используются только три целочисленные переменные в качестве указателей  
+- Массив `nums1` модифицируется на месте, без дополнительного хранилища
 
-1. **In-place modification**: Uses existing space in `nums1` without requiring extra memory
-2. **No element shifting**: By working backward, we never overwrite unprocessed data
-3. **Handles edge cases naturally**: Empty arrays, single elements, and boundary conditions are handled by the pointer logic
-4. **Stable sorting**: When equal elements are encountered, the element from `nums2` is placed first, maintaining relative order
+### Основные преимущества
 
-### Alternative Approaches
+1. **Изменение на месте**: Используется уже выделённое пространство в `nums1`, дополнительная память не требуется
+2. **Отсутствие сдвигов элементов**: Поскольку обход идёт с конца, мы никогда не перезаписываем ещё необработанные данные
+3. **Естественная обработка крайних случаев**: Пустые массивы, одиночные элементы и граничные условия корректно обрабатываются логикой указателей
+4. **Стабильная сортировка**: При равенстве элементов сначала размещается элемент из `nums2`, что сохраняет относительный порядок
 
-While this solution is optimal, other approaches exist:
+### Альтернативные подходы
 
-1. **Naive approach**: Copy `nums2` to the end of `nums1` and sort - O((m+n)log(m+n)) time
-2. **Forward three pointers**: Requires shifting elements - O(mn) time in worst case
-3. **Temporary array**: Copy merged result to temporary array then back to `nums1` - O(m+n) time but O(m+n) space
+Хотя данное решение является оптимальным, существуют и другие подходы:
 
-The backward three-pointers approach is the most efficient solution, meeting the follow-up requirement of O(m+n) time complexity while using only O(1) extra space.
+1. **Наивный подход**: Скопировать `nums2` в конец `nums1` и отсортировать — O((m+n)log(m+n)) по времени
+2. **Три указателя вперёд**: Требует сдвига элементов — в худшем случае O(mn) по времени
+3. **Временный массив**: Скопировать результат слияния во временный массив, затем обратно в `nums1` — O(m+n) по времени, но O(m+n) по памяти
+
+Подход с тремя указателями, работающими с конца, является наиболее эффективным решением: он удовлетворяет дополнительному требованию — O(m+n) по времени — и использует всего O(1) дополнительной памяти.
